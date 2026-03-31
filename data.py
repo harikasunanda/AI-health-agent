@@ -41,11 +41,12 @@ def load_data(limit=100):
 
         query = f"""
         SELECT 
-            _id,
+            patient_id,
+            patient_name,
             doctor_name,
             speciality,
             scheduled_at
-        FROM info_consultation_raw_data
+        FROM info_consultation_raw_data_new
         WHERE _id IS NOT NULL
         LIMIT {limit}
         """
