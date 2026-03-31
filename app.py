@@ -22,7 +22,7 @@ if df.empty:
 
 df.columns = df.columns.str.strip().str.lower()
 
-id_column = "_id" if "_id" in df.columns else "application_id"
+id_column = "patient_id" if "patient_id" in df.columns else "application_id"
 
 st.sidebar.header(" Filters")
 
@@ -43,7 +43,7 @@ col3.metric("Specialties", df["speciality"].nunique())
 st.markdown("---")
 
 selected_id = st.selectbox(
-    "Select Consultation ID",
+    "Select Patient ID",
     df[id_column]
 )
 

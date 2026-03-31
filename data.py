@@ -41,12 +41,22 @@ def load_data(limit=100):
 
         query = f"""
         SELECT 
+<<<<<<< Updated upstream
             _id,
             doctor_name,
             speciality,
             scheduled_at
         FROM info_consultation_raw_data
         WHERE _id IS NOT NULL
+=======
+            patient_id,
+            patient_name,
+            doctor_name,    
+            speciality,
+            scheduled_at
+        FROM info_consultation_raw_data_new
+        WHERE patient_id IS NOT NULL
+>>>>>>> Stashed changes
         LIMIT {limit}
         """
 
