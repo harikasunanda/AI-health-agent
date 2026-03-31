@@ -1,0 +1,5 @@
+{
+    "powerquery.client.additionalSymbolsDirectories": [
+        "e:/AI-health-agent/.vscode/excel-pq-symbols"
+    ]
+}
