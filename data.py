@@ -4,19 +4,15 @@ from sqlalchemy import create_engine
 
 logging.basicConfig(level=logging.INFO)
 
-# -------------------------------
-# Create Engine (SQLAlchemy)
-# -------------------------------
 def get_engine():
     """Create and return SQLAlchemy engine"""
     try:
         connection_string = (
-             "mysql+pymysql://readonlyuser:hngadmin%401234@"
+            "mysql+pymysql://readonlyuser:hngadmin%401234@"
             "hng-data-lake-flexi.mysql.database.azure.com:3306/mrc_datapoints"
         )
 
         engine = create_engine(connection_string)
-
         return engine
 
     except Exception as e:
@@ -24,12 +20,9 @@ def get_engine():
         return None
 
 
-# -------------------------------
-# Load Data
-# -------------------------------
 def load_data(limit=100):
     """
-    Load consultation data from database
+    Load patient consultation data from database
     """
     engine = None
 
@@ -43,18 +36,39 @@ def load_data(limit=100):
         SELECT 
             patient_id,
             patient_name,
-            doctor_name,
-            speciality,
-            scheduled_at
+            patient_age,
+            patient_gender,
+            height,
+            weight,
+            bmi,
+            systolic_bp,
+            diastolic_bp,
+            pulse,
+            spo2,
+            temperature,
+            respiratoryRate,
+            doctorsymptoms,
+            diagnosis,
+            labtestresult
         FROM info_consultation_raw_data_new
-        WHERE _id IS NOT NULL
+        WHERE application_id IS NOT NULL
         LIMIT {limit}
         """
 
         df = pd.read_sql(query, engine)
 
-        # Convert datetime safely
-        df["scheduled_at"] = pd.to_datetime(df["scheduled_at"], errors="coerce")
+        df.columns = df.columns.str.strip().str.lower()
+
+        numeric_cols = [
+            "height", "weight", "bmi",
+            "systolic_bp", "diastolic_bp",
+            "pulse", "spo2", "temperature",
+            "respiratoryrate"
+        ]
+
+        for col in numeric_cols:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors="coerce")
 
         logging.info(f"Loaded {len(df)} records from database")
 
