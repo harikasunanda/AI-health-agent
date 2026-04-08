@@ -11,7 +11,7 @@ st.set_page_config(
 
 st.markdown("""
 <h1 style='text-align: center; color: #1f4e79; font-weight: 700;'>
- AI HealthCare Agent
+ LAB TEST ANALYSIS
 </h1>
 <hr>
 """, unsafe_allow_html=True)
